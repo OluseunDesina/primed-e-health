@@ -21,6 +21,8 @@ export class UsersComponent implements OnInit {
   isEditing = false;
   editIndex: number | null = null;
   errorMessage: string = '';
+  private emailRegEx =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   private fb = inject(FormBuilder);
   private userService = inject(UsersService);
@@ -30,7 +32,14 @@ export class UsersComponent implements OnInit {
     // initialize the form
     this.userForm = this.fb.group({
       name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern(this.emailRegEx),
+        ],
+      ],
       role: ['', Validators.required],
     });
     // calls this methods once on component initialization
