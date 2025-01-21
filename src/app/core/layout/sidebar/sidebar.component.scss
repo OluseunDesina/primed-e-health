@@ -1,0 +1,20 @@
+.profile-card {
+  @apply flex items-center py-[18px] px-[16px]
+}
+
+.email {
+  color: #6E6E6E;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.role {
+  color: #2C2C2C;
+  font-size: 16px;
+  font-weight: 600;
+
+}
+
+.active {
+  @apply rounded-full bg-secondary text-primary;
+}

@@ -1,0 +1,94 @@
+<div class="container mx-auto p-4">
+  <!-- renders users form -->
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="bg-white p-6 rounded shadow-md max-w-md mx-auto">
+    <h2 class="text-2xl font-bold mb-4">User Management</h2>
+    <!-- shows error message if error exists -->
+    @if (errorMessage) {
+    <p class="text-red">
+      {{errorMessage}}
+    </p>
+    }
+    <!-- Name -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700" for="name">Name</label>
+      <input type="text" id="name" formControlName="name"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+      @if (userForm.get('name')?.invalid && userForm.get('name')?.touched ) {
+      <div class="text-red-500 text-sm">Name is required</div>
+      }
+    </div>
+
+    <!-- Email -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700" for="email">Email</label>
+      <input type="email" id="email" formControlName="email"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+      @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+      <div class="text-red-500 text-sm">Valid email is required</div>
+      }
+    </div>
+
+    <!-- Role -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700" for="role">Role</label>
+      <select id="role" formControlName="role"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <option selected disabled value="">-- Kindly select a role --</option>
+        @for (role of roles; let i = $index; track i) {
+        <option [value]="role">{{role}}</option>
+        }
+      </select>
+      @if (userForm.get('role')?.invalid && userForm.get('role')?.touched ) {
+      <div class="text-red-500 text-sm">Role is required</div>
+      }
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" [disabled]="userForm.invalid"
+      class="w-full bg-primary text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+      {{ isEditing ? 'Update User' : 'Add User' }}
+    </button>
+  </form>
+
+  <!-- User Table -->
+  <table class="bg-white rounded shadow-md table-auto w-full mt-8 border-collapse">
+    <!-- Table Headers -->
+    <thead>
+      <tr>
+        <th class="border px-4 py-2">Name</th>
+        <th class="border px-4 py-2">Email</th>
+        <th class="border px-4 py-2">Role</th>
+        <th class="border px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (users && users.length > 0) {
+      @for (user of users; let i = $index; track i ) {
+      <!-- User lists -->
+      <tr class="hover:bg-gray-100">
+        <td class="border px-4 py-2">{{ user.name }}</td>
+        <td class="border px-4 py-2">{{ user.email }}</td>
+        <td class="border px-4 py-2">{{ user.role }}</td>
+        <td class="border px-4 py-2 text-center">
+          <button (click)="onEdit(i)" class="bg-primary text-white px-2 py-1 rounded-md mr-2">
+            Edit
+          </button>
+          <button (click)="onDelete(i)" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
+            Delete
+          </button>
+        </td>
+      </tr>
+      }
+      } @else {
+      <!-- empty state -->
+      <tr class="hover:bg-gray-100">
+        <td class="py-10" colspan="4">
+          <p class="text-center text-2xl">
+            No Users to display start by adding users in the form above
+          </p>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

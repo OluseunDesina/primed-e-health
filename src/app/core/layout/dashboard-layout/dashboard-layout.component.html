@@ -1,0 +1,22 @@
+<div class="grid grid-cols-1 h-screen bg-dashbpard-background">
+  <div class="w-full">
+    <!-- Header -->
+    <app-header></app-header>
+  </div>
+
+
+  <!-- Main Content -->
+  <div class="flex h-[calc(100vh-86px)]">
+    <app-sidebar class="w-[360px] h-full" (hideSideBar)="showSidebar = false"></app-sidebar>
+
+
+    <!-- Content Area -->
+    <main class="flex-grow container px-2 overflow-y-scroll">
+      <div class="grid grid-cols-1 p-8">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+  </div>
+
+</div>
